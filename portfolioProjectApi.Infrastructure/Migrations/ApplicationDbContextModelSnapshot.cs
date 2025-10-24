@@ -8,7 +8,7 @@ using PortfolioProject.Infrastructure.Context;
 
 #nullable disable
 
-namespace PortfolioProject.Infrastructure.Migrations
+namespace portfolioProjectApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -259,7 +259,7 @@ namespace PortfolioProject.Infrastructure.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Attachments", (string)null);
+                    b.ToTable("Attachments");
                 });
 
             modelBuilder.Entity("PortfolioProject.Data.Entities.Experience", b =>
@@ -303,7 +303,7 @@ namespace PortfolioProject.Infrastructure.Migrations
 
                     b.HasIndex("PortfolioId");
 
-                    b.ToTable("Experiences", (string)null);
+                    b.ToTable("Experiences");
                 });
 
             modelBuilder.Entity("PortfolioProject.Data.Entities.Portfolio", b =>
@@ -364,7 +364,7 @@ namespace PortfolioProject.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Portfolios", (string)null);
+                    b.ToTable("Portfolios");
                 });
 
             modelBuilder.Entity("PortfolioProject.Data.Entities.Project", b =>
@@ -401,7 +401,7 @@ namespace PortfolioProject.Infrastructure.Migrations
 
                     b.HasIndex("PortfolioId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("PortfolioProject.Data.Entities.ProjectHighlight", b =>
@@ -426,7 +426,7 @@ namespace PortfolioProject.Infrastructure.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectHighlights", (string)null);
+                    b.ToTable("ProjectHighlights");
                 });
 
             modelBuilder.Entity("PortfolioProject.Data.Entities.ProjectTechnology", b =>
@@ -448,7 +448,7 @@ namespace PortfolioProject.Infrastructure.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectTechnologies", (string)null);
+                    b.ToTable("ProjectTechnologies");
                 });
 
             modelBuilder.Entity("PortfolioProject.Data.Entities.Skills", b =>
@@ -482,7 +482,7 @@ namespace PortfolioProject.Infrastructure.Migrations
 
                     b.HasIndex("PortfolioId");
 
-                    b.ToTable("Skills", (string)null);
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

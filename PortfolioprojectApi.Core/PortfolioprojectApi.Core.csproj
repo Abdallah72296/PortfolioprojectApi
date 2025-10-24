@@ -10,4 +10,15 @@
     <Folder Include="Features\ApllicationUser\Queries\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PortfolioprojectApi.Data\PortfolioprojectApi.Data.csproj" />
+    <ProjectReference Include="..\portfolioProjectApi.Infrastructure\portfolioProjectApi.Infrastructure.csproj" />
+    <ProjectReference Include="..\PortfolioprojectApi.Services\PortfolioprojectApi.Services.csproj" />
+  </ItemGroup>
+
 </Project>

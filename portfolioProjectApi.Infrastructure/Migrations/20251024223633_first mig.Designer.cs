@@ -9,11 +9,11 @@ using PortfolioProject.Infrastructure.Context;
 
 #nullable disable
 
-namespace PortfolioProject.Infrastructure.Migrations
+namespace portfolioProjectApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251024135650_add-table-attach")]
-    partial class addtableattach
+    [Migration("20251024223633_first mig")]
+    partial class firstmig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

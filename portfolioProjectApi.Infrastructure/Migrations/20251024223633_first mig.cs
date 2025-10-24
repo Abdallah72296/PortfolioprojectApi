@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PortfolioProject.Infrastructure.Migrations
+namespace portfolioProjectApi.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMig : Migration
+    public partial class firstmig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -157,6 +157,25 @@ namespace PortfolioProject.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Attachments",
+                columns: table => new
+                {
+                    AttachmentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    OriginalFileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Size = table.Column<long>(type: "bigint", nullable: false),
+                    UploadedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachments", x => x.AttachmentId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Portfolios",
                 columns: table => new
                 {
@@ -169,7 +188,8 @@ namespace PortfolioProject.Infrastructure.Migrations
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfileImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CvAttachmentId = table.Column<int>(type: "int", nullable: true),
+                    ProfileImageAttachmentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -180,6 +200,18 @@ namespace PortfolioProject.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Portfolios_Attachments_CvAttachmentId",
+                        column: x => x.CvAttachmentId,
+                        principalTable: "Attachments",
+                        principalColumn: "AttachmentId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Portfolios_Attachments_ProfileImageAttachmentId",
+                        column: x => x.ProfileImageAttachmentId,
+                        principalTable: "Attachments",
+                        principalColumn: "AttachmentId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -336,6 +368,11 @@ namespace PortfolioProject.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Attachments_ProjectId",
+                table: "Attachments",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Experiences_PortfolioId",
                 table: "Experiences",
                 column: "PortfolioId");
@@ -345,6 +382,20 @@ namespace PortfolioProject.Infrastructure.Migrations
                 table: "Portfolios",
                 column: "CustomUsername",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Portfolios_CvAttachmentId",
+                table: "Portfolios",
+                column: "CvAttachmentId",
+                unique: true,
+                filter: "[CvAttachmentId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Portfolios_ProfileImageAttachmentId",
+                table: "Portfolios",
+                column: "ProfileImageAttachmentId",
+                unique: true,
+                filter: "[ProfileImageAttachmentId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Portfolios_UserId",
@@ -371,11 +422,27 @@ namespace PortfolioProject.Infrastructure.Migrations
                 name: "IX_Skills_PortfolioId",
                 table: "Skills",
                 column: "PortfolioId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Attachments_Projects_ProjectId",
+                table: "Attachments",
+                column: "ProjectId",
+                principalTable: "Projects",
+                principalColumn: "ProjectId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Portfolios_AspNetUsers_UserId",
+                table: "Portfolios");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Attachments_Projects_ProjectId",
+                table: "Attachments");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -407,13 +474,16 @@ namespace PortfolioProject.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Portfolios");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Attachments");
         }
     }
 }
